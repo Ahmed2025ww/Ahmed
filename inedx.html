@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قرآن كريم - إهداء إلى روح إسراء السيد السعيد</title>
+    <!-- مكتبة Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- مكتبة Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- مكتبة Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- مكتبة Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- مكتبة SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- مكتبة Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- مكتبة Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lateef&display=swap" rel="stylesheet">
+    <!-- تنسيقات CSS المخصصة -->
+    <style>
+        body {
+            font-family: 'Lateef', serif;
+            background-color: #faf8f5;
+            color: #5a4a42;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #f0f0f0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            color: #5a4a42;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 2px solid #e0d7c3;
+        }
+
+        .dark-mode .header {
+            background: linear-gradient(135deg, #333, #555);
+            color: #f0f0f0;
+            border-color: #444;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-shadow: 0 0 10px #ffa500, 0 0 20px #ffa500, 0 0 30px #ffa500;
+        }
+
+        #surah-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .surah-item {
+            cursor: pointer;
+            padding: 20px;
+            border: 2px solid #e0d7c3;
+            border-radius: 15px;
+            background-color: #fffaf0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            color: #5a4a42;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .surah-item {
+            background-color: #333;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+
+        .surah-item:hover {
+            transform: scale(1.05);
+            background-color: #f5f0e6;
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+            border-color: #ffd700;
+        }
+
+        .dark-mode .surah-item:hover {
+            background-color: #444;
+            box-shadow: 0 0 10px #ffa500, 0 0 20px #ffa500, 0 0 30px #ffa500;
+        }
+
+        .surah-item i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .surah-item span {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        #ayahs-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .ayah {
+            margin: 25px 0;
+            padding: 30px;
+            border-bottom: 2px solid #e0d7c3;
+            text-align: right;
+            direction: rtl;
+            font-size: 2.2em;
+            line-height: 3.5;
+            color: #5a4a42;
+            background-color: #fffaf0;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode .ayah {
+            background-color: #333;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+
+        .ayah:hover {
+            background-color: #f5f0e6;
+            transform: translateY(-5px);
+        }
+
+        .dark-mode .ayah:hover {
+            background-color: #444;
+        }
+
+        .ayah:last-child {
+            border-bottom: none;
+        }
+
+        .ayah span {
+            font-weight: bold;
+            color: #ffa500;
+            margin-left: 10px;
+            font-size: 1.5em;
+        }
+
+        .back-button {
+            margin-bottom: 20px;
+            background-color: #ffd700;
+            border: none;
+            color: #5a4a42;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .back-button {
+            background-color: #555;
+            color: #f0f0f0;
+        }
+
+        .back-button:hover {
+            background-color: #ffa500;
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+        }
+
+        .dark-mode .back-button:hover {
+            background-color: #666;
+            box-shadow: 0 0 10px #ffa500, 0 0 20px #ffa500, 0 0 30px #ffa500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header h2 {
+                font-size: 1.5rem;
+            }
+
+            .surah-item {
+                font-size: 1rem;
+            }
+
+            .ayah {
+                font-size: 1.8em;
+                padding: 20px;
+                line-height: 3;
+            }
+        }
+
+        .icon-container {
+            position: fixed;
+            top: 20px;
+            z-index: 1000;
+        }
+
+        .icon-container.left {
+            left: 20px;
+        }
+
+        .icon-container.right {
+            right: 20px;
+        }
+
+        .icon-container i {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #5a4a42;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode .icon-container i {
+            color: #f0f0f0;
+        }
+
+        .icon-container i:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+        }
+
+        .search-bar {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background-color: #fffaf0;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .dark-mode .search-bar {
+            background-color: #333;
+        }
+
+        .search-bar input {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #e0d7c3;
+            border-radius: 5px;
+            font-family: 'Lateef', serif;
+            font-size: 1.2rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .dark-mode .search-bar input {
+            background-color: #444;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+
+        .search-bar input:focus {
+            border-color: #ffa500;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- أيقونة الوضع المظلم -->
+    <div class="icon-container left">
+        <i class="fas fa-moon" id="dark-mode-toggle"></i>
+    </div>
+
+    <!-- أيقونة البحث -->
+    <div class="icon-container right">
+        <i class="fas fa-search" id="search-toggle"></i>
+    </div>
+
+    <!-- شريط البحث -->
+    <div class="search-bar animate-smooth" id="search-bar">
+        <input type="text" id="search-input" placeholder="ابحث عن سورة...">
+    </div>
+
+    <div class="container text-center mt-5">
+        <!-- مربع العنوان -->
+        <div class="header animate__animated animate__fadeInDown">
+            <h1><i class="fas fa-quran"></i> قرآن كريم</h1>
+            <h2>إهداء إلى روح إسراء السيد السعيد</h2>
+        </div>
+        <!-- قائمة السور -->
+        <div id="surah-list" class="mt-4 animate__animated animate__fadeInUp">
+            <!-- سيتم تعبئة السور هنا -->
+        </div>
+        <!-- حاوية الآيات -->
+        <div id="ayahs-container" class="mt-4">
+            <button id="back-button" class="btn btn-secondary back-button animate__animated animate__fadeIn">
+                <i class="fas fa-arrow-left"></i> العودة إلى قائمة السور
+            </button>
+            <div id="ayahs-content"></div>
+        </div>
+    </div>
+
+    <!-- مكتبة jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- مكتبة Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- مكتبة SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- مكتبة Animate.css -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.js"></script>
+    <!-- الكود JavaScript -->
+    <script>
+        $(document).ready(function() {
+            const apiUrl = "https://api.alquran.cloud/v1/surah";
+
+            // جلب قائمة السور
+            $.get(apiUrl, function(data) {
+                const surahs = data.data;
+                let surahListHtml = '';
+                surahs.forEach(surah => {
+                    surahListHtml += `
+                        <div class="surah-item animate__animated animate__fadeIn" data-surah-number="${surah.number}">
+                            <i class="fas fa-book"></i>
+                            <span>${surah.englishName} (${surah.name})</span>
+                        </div>
+                    `;
+                });
+                $('#surah-list').html(surahListHtml);
+            });
+
+            // عند النقر على سورة
+            $(document).on('click', '.surah-item', function() {
+                $('#search-bar, .icon-container.right').hide();
+                const surahNumber = $(this).data('surah-number');
+                $('#surah-list').hide();
+                $('#ayahs-container').show().html('<p class="text-center animate__animated animate__fadeIn">جارٍ تحميل الآيات...</p>');
+
+                // جلب آيات السورة
+                $.get(`https://api.alquran.cloud/v1/surah/${surahNumber}/ar.alafasy`, function(data) {
+                    const ayahs = data.data.ayahs;
+                    let ayahsHtml = '';
+                    ayahs.forEach(ayah => {
+                        ayahsHtml += `
+                            <div class="ayah animate__animated animate__fadeIn">
+                                <span>${ayah.numberInSurah}.</span> ${ayah.text}
+                            </div>
+                        `;
+                    });
+                    $('#ayahs-container').html(`
+                        <button id="back-button" class="btn btn-secondary back-button animate__animated animate__fadeIn">
+                            <i class="fas fa-arrow-left"></i> العودة إلى قائمة السور
+                        </button>
+                        <div id="ayahs-content">${ayahsHtml}</div>
+                    `);
+
+                    // عرض رسالة نجاح
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم تحميل الآيات بنجاح',
+                        text: 'تم تحميل آيات السورة بنجاح',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }).fail(function() {
+                    // عرض رسالة خطأ في حالة فشل الطلب
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        text: 'حدث خطأ أثناء تحميل الآيات',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                });
+            });
+
+            // زر العودة إلى قائمة السور
+            $(document).on('click', '#back-button', function() {
+                $('#search-bar, .icon-container.right').show();
+                $('#ayahs-container').hide();
+                $('#surah-list').show();
+
+                // عرض رسالة إعلامية
+                Swal.fire({
+                    icon: 'info',
+                    title: 'تم العودة',
+                    text: 'تم العودة إلى قائمة السور',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            });
+
+            // تبديل الوضع المظلم
+            $('#dark-mode-toggle').click(function() {
+                $('body').toggleClass('dark-mode');
+                $(this).toggleClass('fa-moon fa-sun');
+            });
+
+            // إظهار/إخفاء شريط البحث
+            $('#search-toggle').click(function(e) {
+                e.stopPropagation();
+                $('#search-bar').toggle();
+            });
+
+            // إغلاق شريط البحث عند النقر خارج المنطقة
+            $(document).click(function() {
+                $('#search-bar').hide();
+            });
+
+            // منع إغلاق الشريط عند النقر داخله
+            $('#search-bar').click(function(e) {
+                e.stopPropagation();
+            });
+
+            // البحث عن سورة
+            $('#search-input').on('input', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                $('.surah-item').each(function() {
+                    const surahName = $(this).text().toLowerCase();
+                    if (surahName.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
